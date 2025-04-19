@@ -43,7 +43,7 @@ void insertMap(HashMap * map, char * key, void * value) {
     long pos = hash(key, map->capacity);
     while (map->buckets[pos] !=NULL)
     {
-        if(is_equal(map->buckets[pos], pos))
+        if(is_equal(map->buckets[pos]->key, key))
         {
             map->buckets[pos]->value = value;
             return;
@@ -55,6 +55,7 @@ void insertMap(HashMap * map, char * key, void * value) {
 
     map->size++;
     map->current = pos;
+    return;
 }
 
 
@@ -86,7 +87,7 @@ void eraseMap(HashMap * map,  char * key) {
     long pos = hash(key, map->capacity);
     while (map->buckets[pos] !=NULL)
     {
-        if(is_equal(map->buckets[pos], pos))
+        if(is_equal(map->buckets[pos]->key, key))
         {
             map->buckets[pos]->key = NULL;
             map->size--;
@@ -94,14 +95,14 @@ void eraseMap(HashMap * map,  char * key) {
         }
         pos = (pos + 1) % map->capacity;
     }
-    return NULL;
+    return;
 }
 
 Pair * searchMap(HashMap * map,  char * key) {   
     long pos = hash(key, map->capacity);
     while (map->buckets[pos] != NULL)
     {
-        if(is_equal(map->buckets[pos], pos))
+        if(is_equal(map->buckets[pos]->key, key))
         {
             map->current = pos;
             return map->buckets[pos];

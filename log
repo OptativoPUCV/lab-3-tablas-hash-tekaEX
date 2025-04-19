@@ -32,3 +32,9 @@ hashmap.c:35:5: note: expected 'void *' but argument is of type 'long int'
      ^~~~~~~~
 cc1.exe: all warnings being treated as errors
 eeef3b7
+Sat, Apr 19, 2025  1:32:15 AM: 
+ hashmap.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+ tests:  11|2
+total_score: 50/70
+e7312e7
