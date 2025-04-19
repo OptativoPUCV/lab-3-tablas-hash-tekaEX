@@ -114,10 +114,13 @@ Pair * searchMap(HashMap * map,  char * key) {
 
 Pair * firstMap(HashMap * map) {
     Pair* first = map->buckets[0];
+    map->current = 0;
     return first;
 }
 
 Pair * nextMap(HashMap * map) {
-    Pair* next = map->buckets[(map->current + 1)% map->capacity];
+    long nextpos = (map->current + 1)% map->capacity;
+    Pair* next = map->buckets[nextpos];
+    map->current = nextpos;
     return next;
 }
