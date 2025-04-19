@@ -40,9 +40,23 @@ int is_equal(void* key1, void* key2){
 
 
 void insertMap(HashMap * map, char * key, void * value) {
+    long pos = hash(key, map->capacity);
+    while (map->buckets[pos] !=NULL)
+    {
+        if(is_equal(map->buckets[pos], pos))
+        {
+            map->buckets[pos]->value = value;
+            return;
+        }
+        pos = (pos + 1) % map->capacity;
+    }
 
+    map->buckets[pos] = createPair(key, value);
 
+    map->size++;
+    map->current = pos;
 }
+
 
 void enlarge(HashMap * map) {
     enlarge_called = 1; //no borrar (testing purposes)
@@ -52,18 +66,48 @@ void enlarge(HashMap * map) {
 
 
 HashMap * createMap(long capacity) {
+    HashMap* map = (HashMap*)malloc(sizeof(HashMap));
+    if(map == NULL) return NULL;
 
-    return NULL;
+    map->buckets = (Pair**) calloc(capacity, sizeof(Pair*));
+    if (map->buckets == NULL){
+        free(map);
+        return NULL;
+    }
+
+    map->size = 0;
+    map->capacity = capacity;
+    map->current = -1;
+
+    return map;
 }
 
 void eraseMap(HashMap * map,  char * key) {    
-
-
+    long pos = hash(key, map->capacity);
+    while (map->buckets[pos] !=NULL)
+    {
+        if(is_equal(map->buckets[pos], pos))
+        {
+            map->buckets[pos]->key = NULL;
+            map->size--;
+            return;
+        }
+        pos = (pos + 1) % map->capacity;
+    }
+    return NULL;
 }
 
 Pair * searchMap(HashMap * map,  char * key) {   
-
-
+    long pos = hash(key, map->capacity);
+    while (map->buckets[pos] != NULL)
+    {
+        if(is_equal(map->buckets[pos], pos))
+        {
+            map->current = pos;
+            return map->buckets[pos];
+        }
+        pos = (pos + 1) % map->capacity;
+    }
     return NULL;
 }
 
